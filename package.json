@@ -1,0 +1,23 @@
+{
+  "name": "ci-tooling",
+  "version": "1.0.0",
+  "description": "Tooling for Kuzzle CI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuzzleio/ci-tooling.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuzzleio/ci-tooling/issues"
+  },
+  "homepage": "https://github.com/kuzzleio/ci-tooling#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "danger": "^11.0.7"
+  }
+}
