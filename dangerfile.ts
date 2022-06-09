@@ -1,12 +1,13 @@
 import {danger, message} from 'danger';
+import * as fs from 'fs';
 
  
 async function main() {
   const tsFiles = danger.git.created_files.filter(e => e.endsWith('.ts'));
 
   for (const file in tsFiles) {
-    const content = await danger.github.utils.fileContents(file);
-    await message(content);
+    const content = fs.readFileSync(file).toString();
+    message(content);
   }
 }
 
