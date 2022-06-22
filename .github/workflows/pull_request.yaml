@@ -10,6 +10,6 @@ jobs:
     - name: Danger
       uses: danger/danger-js@9.1.6
       with:
-        args: "--dangerfile dangerfile.ts"
+        args: "--dangerfile branch-merge-check.ts"
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
