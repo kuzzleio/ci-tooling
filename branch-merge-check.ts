@@ -1,4 +1,4 @@
-import {danger, fail} from 'danger';
+import {danger, fail, markdown} from 'danger';
 
 function checkBypass(baseBranch: string, body: string): boolean {
   if (! body) {
@@ -7,10 +7,6 @@ function checkBypass(baseBranch: string, body: string): boolean {
 
   const allowedBranch = body.match(/ci-allow-merge-into *: *(\S+)/);
   return allowedBranch ? allowedBranch![1] === baseBranch : false;
-}
-
-function sendFailureMessage() {
-
 }
 
 async function main() {
@@ -33,8 +29,9 @@ async function main() {
   if ((Array.isArray(allowedBranches) && ! allowedBranches.includes(head))
     || (typeof allowedBranches === 'string' && allowedBranches !== head)
   ) {
-    fail(`
-    Merging "${head}" into "${base}" is not allowed.
+
+    fail(`Merging "${head}" into "${base}" is not allowed.`);
+    markdown(`
     If you want to allow this PR to be merged into "${base}", add the following line to your PR body:
     \`\`\`
     ci-allow-merge-into: ${base}
