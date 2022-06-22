@@ -4,7 +4,7 @@ on: [pull_request]
 jobs:
   check-branch:
     name: Check Pull Request Branch
-    uses: kuzzleio/ci-tooling/tree/branch-check/shared/workflows/branch_check.yaml
+    uses: kuzzleio/ci-tooling/shared/workflows/branch_check.yaml@branch-check
     secrets: inherit
     with:
       rules: '{"master":["2-dev"]}'
