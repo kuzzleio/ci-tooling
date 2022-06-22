@@ -16,8 +16,8 @@
     "url": "https://github.com/kuzzleio/ci-tooling/issues"
   },
   "homepage": "https://github.com/kuzzleio/ci-tooling#readme",
-  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^18.0.0",
     "danger": "^11.0.7"
   }
 }
