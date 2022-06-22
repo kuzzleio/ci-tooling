@@ -30,13 +30,15 @@ async function main() {
     || (typeof allowedBranches === 'string' && allowedBranches !== head)
   ) {
 
-    fail(`Merging "${head}" into "${base}" is not allowed.`);
-    markdown(`
-    If you want to allow this PR to be merged into "${base}", add the following line to your PR body:
-    \`\`\`
-    ci-allow-merge-into: ${base}
-    \`\`\`
-    `);
+    const message = 
+      `Merging "${head}" into "${base}" is not allowed.\n` +
+      `If you want to allow this PR to be merged into "${base}", add the following line to your PR body:\n\n` +
+      '```\n' +
+      `ci-allow-merge-into: ${base}\n` +
+      '```';
+    
+    fail(message);
+    
     return;
   }
 }
