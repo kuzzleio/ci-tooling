@@ -18,6 +18,7 @@ export class DangerRunner {
         if (! (dangerCheck instanceof DangerCheck)) {
           continue;
         }
+        console.log(this.checks);
         this.checks.push(new (dangerCheck as any)(this.config));
       }
       catch (e) {
