@@ -31,8 +31,10 @@ jobs:
         npm run build
     - name: Run Danger Checks
       working-directory: ci-tooling
+      env:
+        DANGER_DISABLE_TRANSPILATION: 'true'
       run: |
-        npm run danger-ci
+        npm run danger-ci --dangerfile dangerfile.js
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}

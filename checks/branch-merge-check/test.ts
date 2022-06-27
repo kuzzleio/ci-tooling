@@ -10,7 +10,7 @@ export default class BranchMergeCheck extends DangerCheck {
 
   async run(): Promise<CheckResult> {
     return {
-      type: 'message',
+      type: 'success',
       message: DangerUtils.github.pr.base.ref
     };
   }
