@@ -36,6 +36,6 @@ jobs:
       run: |
         npm run danger-ci
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DANGER_GITHUB_API_TOKEN: ${{ secrets.KUZZLE_BOT_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
       SOURCE_FOLDER: main
