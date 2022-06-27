@@ -21,7 +21,7 @@ jobs:
         path: ci-tooling
     - uses: actions/setup-node@v2
       with:
-        node-version: 14
+        node-version: 16
     - name: Build Danger Checks
       working-directory: ci-tooling
       env:
@@ -29,9 +29,9 @@ jobs:
       run: |
         npm install
     - name: Run Danger Checks
-      working-directory: main
+      working-directory: ci-tooling
       run: |
-        npx danger ci --dangerfile $GITHUB_WORKSPACE/ci-tooling/danger.ts
+        npm run danger-ci
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
