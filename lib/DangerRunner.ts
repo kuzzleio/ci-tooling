@@ -14,8 +14,9 @@ export class DangerRunner {
       try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const dangerCheck = require(`${__dirname}/../checks/${check}/test.js`).default;
+        console.log(dangerCheck);
         if (! (dangerCheck instanceof DangerCheck)) {
-          break;
+          conto;
         }
         this.checks.push(new (dangerCheck as any)(this.config));
       }
