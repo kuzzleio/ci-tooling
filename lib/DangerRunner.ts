@@ -1,6 +1,5 @@
 import { DangerCheck } from './DangerCheck';
-import { DangerUtils } from './DangerUtils';
-import { JSONObject } from './JSONObject';
+import { DangerUtils } from './utils/DangerUtils';
 import { DangerConfig } from './types/DangerConfig';
 import { codeBlock } from './utils/Markdown';
 
@@ -30,7 +29,7 @@ export class DangerRunner {
     }
   }
 
-  private getMessage(message: string | string[]): string {
+  private getMessage (message: string | string[]): string {
     if (Array.isArray(message)) {
       return message.join('\n');
     }

@@ -1,4 +1,3 @@
-import { JSONObject } from './JSONObject';
 import { DangerConfig } from './types/DangerConfig';
 
 export type CheckResult = {
@@ -20,6 +19,6 @@ export abstract class DangerCheck {
   abstract run (): Promise<CheckResult>;
 
   getName (): string {
-    return this.name || this.constructor.name;
+    return this.name || this.constructor.name.split(/?=[A-Z]/).join(' ');
   }
 }

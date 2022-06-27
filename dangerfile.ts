@@ -1,7 +1,8 @@
 import yaml from 'yaml';
 import * as fs from 'fs/promises';
 import { DangerRunner } from './lib/DangerRunner';
-import { DangerUtils } from './lib/DangerUtils';
+import { DangerUtils } from './lib/utils/DangerUtils';
+import { DangerConfig } from './lib/types/DangerConfig';
 
 
 DangerUtils.schedule(async () => {
@@ -11,7 +12,7 @@ DangerUtils.schedule(async () => {
 
   try {
     const buffer = await fs.readFile(`${process.env.GITHUB_WORKSPACE}/${process.env.SOURCE_FOLDER}/${process.env.DANGER_CONFIG}`, 'utf8');
-    const config = yaml.parse(buffer.toString());
+    const config = yaml.parse(buffer.toString()) as DangerConfig;
 
     const dangerRun = new DangerRunner(config);
     await dangerRun.run();
