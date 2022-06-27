@@ -1,6 +1,6 @@
 import yaml from 'yaml';
 import { schedule } from 'danger';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 
 schedule(async () => {
   console.log(__dirname);
@@ -14,5 +14,5 @@ schedule(async () => {
   console.log(process.env.DANGER_CONFIG);
   const path = `${process.env.GITHUB_WORKSPACE}/${process.env.GITHUB_REPOSITORY}`;
   console.log(path);
-  console.log(fs.existsSync(path));
+  console.log(await fs.readdir(path));
 });
