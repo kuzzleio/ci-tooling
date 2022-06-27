@@ -1,5 +1,4 @@
 import yaml from 'yaml';
-import { schedule, fail } from 'danger';
 import * as fs from 'fs/promises';
 import { DangerRunner } from './lib/DangerRunner';
 
