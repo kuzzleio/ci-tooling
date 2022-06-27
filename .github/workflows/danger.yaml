@@ -2,13 +2,14 @@ name: "Danger JS"
 on:
   workflow_call:
     inputs:
-      rules:
-        description: 'List of branches allowed to be merge in the current branch'
+      DANGER_CONFIG:
+        description: 'Danger configuration file'
         required: true
         type: string
+        default: './.ci/danger.config.yml'
 
 jobs:
-  build:
+  danger-js:
     name: Danger JS
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +17,7 @@ jobs:
     - name: Danger
       uses: danger/danger-js@9.1.6
       with:
-        args: "--dangerfile branch-merge-check.ts"
+        args: "--dangerfile danger.ts"
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RULES: ${{ inputs.rules }}
+      DANGER_CONFIG: ${{ inputs.CONFIG_FILE }}

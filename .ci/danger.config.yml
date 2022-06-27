@@ -1,0 +1,4 @@
+checks:
+  branch-merge-check:
+    master:
+      - 2-dev

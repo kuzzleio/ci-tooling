@@ -1,4 +1,4 @@
-import {danger, fail, markdown} from 'danger';
+import {danger, fail} from 'danger';
 
 function checkBypass(baseBranch: string, body: string): boolean {
   if (! body) {
