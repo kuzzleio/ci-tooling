@@ -1,6 +1,6 @@
 import yaml from 'yaml';
 import { schedule } from 'danger';
-import fs from 'fs';
+import * as fs from 'fs';
 
 schedule(async () => {
   console.log(__dirname);
