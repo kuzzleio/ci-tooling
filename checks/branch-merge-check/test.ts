@@ -70,8 +70,6 @@ export default class BranchMergeCheck extends DangerCheck {
       };
     }
   
-    const allowedBranches = this.checkConfig.branches[base];
-  
     if (this.isMergeAllowed(head, base)) {
       return {
         type: 'fail',
