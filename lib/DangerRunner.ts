@@ -37,7 +37,9 @@ export class DangerRunner {
 
     for (const check of this.checks) {
       try {
+        console.log(`Running ${check.getName()}`);
         const result = await check.run();
+        console.log(result);
         
         switch (result.type) {
           case 'message':
