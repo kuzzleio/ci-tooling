@@ -15,11 +15,10 @@ export class DangerRunner {
       try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const dangerCheck = require(`${__dirname}/../checks/${check}/test.js`).default;
-        console.log(dangerCheck);
-        if (! (dangerCheck instanceof DangerCheck)) {
+        if (! dangerCheck || ! (dangerCheck.prototype instanceof DangerCheck)) {
+          console.error(`${check} is not a valid DangerCheck class: skipped`);
           continue;
         }
-        console.log(this.checks);
         this.checks.push(new (dangerCheck as any)(this.config));
       }
       catch (e) {
