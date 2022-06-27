@@ -1,4 +1,5 @@
 import { DangerCheck } from './DangerCheck';
+import { DangerUtils } from './DangerUtils';
 import { JSONObject } from './JSONObject';
 import { codeBlock } from './utils/Markdown';
 
@@ -23,8 +24,8 @@ export class DangerRunner {
       }
       catch (e) {
         this.loadFailed = true;
-        markdown(`# :x: Failed to load test suite\n\n${e.stack}`);
-        fail('Found some issues !');
+        DangerUtils.markdown(`# :x: Failed to load test suite\n\n${e.stack}`);
+        DangerUtils.fail('Found some issues !');
       }
     }
   }
@@ -65,9 +66,9 @@ export class DangerRunner {
     }
 
     if (checkResults.length > 0) {
-      markdown(checkResults.join('\n\n'));
+      DangerUtils.markdown(checkResults.join('\n\n'));
       if (failed) {
-        fail('Found some issues !');
+        DangerUtils.fail('Found some issues !');
       }
     }
   }

@@ -1,9 +1,10 @@
 import yaml from 'yaml';
 import * as fs from 'fs/promises';
 import { DangerRunner } from './lib/DangerRunner';
+import { DangerUtils } from './lib/DangerUtils';
 
 
-schedule(async () => {
+DangerUtils.schedule(async () => {
   if (! process.env.DANGER_CONFIG) {
     return;
   }
@@ -15,7 +16,7 @@ schedule(async () => {
     const dangerRun = new DangerRunner(config);
     await dangerRun.run();
   } catch (e) {
-    fail(`Failed to read ${process.env.DANGER_CONFIG}`);
+    DangerUtils.fail(`Failed to read ${process.env.DANGER_CONFIG}`);
     return;
   }
 });

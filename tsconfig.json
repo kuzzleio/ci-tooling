@@ -20,5 +20,7 @@
   "rootDir": "lib/",
   "include": [
     "checks/**/*.ts",
+    "lib/**/*.ts",
+    "dangerfile.ts"
   ]
 }

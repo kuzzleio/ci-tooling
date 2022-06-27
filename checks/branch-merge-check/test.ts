@@ -1,4 +1,5 @@
 import { CheckResult, DangerCheck } from '../../lib/DangerCheck';
+import { DangerUtils } from '../../lib/DangerUtils';
 import { JSONObject } from '../../lib/JSONObject';
 
 export default class BranchMergeCheck extends DangerCheck {
@@ -7,10 +8,10 @@ export default class BranchMergeCheck extends DangerCheck {
     super(config);
   }
 
-  run(): Promise<CheckResult> {
-    return Promise.resolve({
+  async run(): Promise<CheckResult> {
+    return {
       type: 'message',
-      message: 'This is a message'
-    });
+      message: DangerUtils.github.pr.base.ref
+    };
   }
 }
