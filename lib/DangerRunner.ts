@@ -72,10 +72,10 @@ export class DangerRunner {
     }
 
     if (checkResults.length > 0) {
-      DangerUtils.markdown('## Executed Checks\n\n' + checkResults.join('\n\n'));
       if (failed) {
         DangerUtils.fail('Found some issues !');
       }
+      DangerUtils.markdown('## Executed Checks\n\n' + checkResults.join('\n\n'));
     }
   }
 }
