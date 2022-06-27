@@ -1,5 +1,5 @@
 import { CheckResult, DangerCheck } from '../../lib/DangerCheck';
-import { DangerUtils } from '../../lib/DangerUtils';
+import { DangerUtils } from '../../lib/utils/DangerUtils';
 import { BranchMergeConfig, DangerConfig } from '../../lib/types/DangerConfig';
 import { codeBlock } from '../../lib/utils/Markdown';
 
