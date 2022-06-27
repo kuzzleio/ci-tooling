@@ -33,3 +33,4 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
+      SOURCE_FOLDER: main
