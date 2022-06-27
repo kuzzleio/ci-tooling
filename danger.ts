@@ -3,7 +3,7 @@ import { schedule } from 'danger';
 
 schedule(async () => {
   console.log(__dirname);
-  console.log(process.env.REPOSITORY);
+  console.log(process.env.GITHUB_REPOSITORY);
   console.log(process.env.GITHUB_REF_NAME);
   console.log(process.env.GITHUB_REF);
   console.log(process.env.GITHUB_PATH);
