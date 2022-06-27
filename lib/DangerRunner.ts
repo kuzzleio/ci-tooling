@@ -21,8 +21,8 @@ export class DangerRunner {
       }
       catch (e) {
         this.loadFailed = true;
-        fail(`# :x: Failed to load test suite\n\n${e.stack}`);
-        break;
+        markdown(`# :x: Failed to load test suite\n\n${e.stack}`);
+        fail('Found some issues !');
       }
     }
   }

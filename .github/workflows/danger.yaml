@@ -28,6 +28,7 @@ jobs:
         NODE_ENV: development
       run: |
         npm install
+        npm run build
     - name: Run Danger Checks
       working-directory: ci-tooling
       run: |

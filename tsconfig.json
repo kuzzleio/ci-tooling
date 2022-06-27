@@ -19,7 +19,6 @@
   },
   "rootDir": "lib/",
   "include": [
-    "lib/**/*.ts",
-    "danger.ts",
+    "checks/**/*.ts",
   ]
 }
