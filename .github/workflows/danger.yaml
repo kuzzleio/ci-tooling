@@ -1,0 +1,24 @@
+name: "Danger JS"
+on:
+  workflow_call:
+    inputs:
+      DANGER_CONFIG:
+        description: 'Danger configuration file'
+        required: true
+        type: string
+
+jobs:
+  danger-js:
+    name: Danger JS
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: kuzzleio/ci-tooling
+    - name: Danger
+      uses: danger/danger-js@9.1.6
+      with:
+        args: "--dangerfile $GITHUB_WORKSPACE/ci-tooling/danger.ts"
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
