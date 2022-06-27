@@ -34,7 +34,7 @@ jobs:
       env:
         DANGER_DISABLE_TRANSPILATION: 'true'
       run: |
-        npm run danger-ci --dangerfile dangerfile.js
+        npm run danger-ci
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
