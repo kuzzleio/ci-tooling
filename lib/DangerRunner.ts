@@ -16,7 +16,7 @@ export class DangerRunner {
         const dangerCheck = require(`${__dirname}/../checks/${check}/test.js`).default;
         console.log(dangerCheck);
         if (! (dangerCheck instanceof DangerCheck)) {
-          conto;
+          continue;
         }
         this.checks.push(new (dangerCheck as any)(this.config));
       }
