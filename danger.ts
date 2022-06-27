@@ -1,18 +1,23 @@
 import yaml from 'yaml';
-import { schedule } from 'danger';
+import { schedule, fail } from 'danger';
 import * as fs from 'fs/promises';
+import { DangerRunner } from './lib/DangerRunner';
+
 
 schedule(async () => {
-  console.log(__dirname);
-  console.log(process.env.GITHUB_REPOSITORY);
-  console.log(process.env.GITHUB_REF_NAME);
-  console.log(process.env.GITHUB_REF);
-  console.log(process.env.GITHUB_PATH);
-  console.log(process.env.GITHUB_WORKSPACE);
-  console.log(process.env.GITHUB_HEAD_REF);
-  console.log(process.env.GITHUB_BASE_REF);
-  console.log(process.env.DANGER_CONFIG);
-  const path = `${process.env.GITHUB_WORKSPACE}/${process.env.GITHUB_REPOSITORY}`;
-  console.log(path);
-  console.log(await fs.readdir(process.env.GITHUB_WORKSPACE));
+  if (! process.env.DANGER_CONFIG) {
+    return;
+  }
+
+
+  try {
+    const buffer = await fs.readFile(`${process.env.GITHUB_WORKSPACE}/${process.env.DANGER_CONFIG}`, 'utf8');
+    const config = yaml.parse(buffer.toString());
+
+    const dangerRun = new DangerRunner(config);
+    await dangerRun.run();
+  } catch (e) {
+    fail(`Failed to read ${process.env.DANGER_CONFIG}`);
+    return;
+  }
 });
