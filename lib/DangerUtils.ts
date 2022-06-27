@@ -15,37 +15,37 @@ type Scheduleable = Promise<any> | Promise<void> | CallbackableFn
  * use the global methods without importing danger since it's injected.
  */
 export class DangerUtils {
-  static fail(message: string, file?: string, line?: number): void {
+  static fail (message: string, file?: string, line?: number): void {
     // @ts-ignore
     fail(message, file, line);
   }
 
-  static warn(message: string, file?: string, line?: number): void {
+  static warn (message: string, file?: string, line?: number): void {
     // @ts-ignore
     warn(message, file, line);
   }
 
-  static message(message: string, file?: string, line?: number): void {
+  static message (message: string, file?: string, line?: number): void {
     // @ts-ignore
     message(message, file, line);
   }
 
-  static markdown(message: string): void {
+  static markdown (message: string): void {
     // @ts-ignore
     markdown(message);
   }
   
-  static get github(): GitHubDSL {
+  static get github (): GitHubDSL {
     // @ts-ignore
     return danger.github;
   }
   
-  static get git(): GitDSL {
+  static get git (): GitDSL {
     // @ts-ignore
     return danger.git;
   }
 
-  static schedule(schedulable: Scheduleable): void {
+  static schedule (schedulable: Scheduleable): void {
     // @ts-ignore
     schedule(schedulable);
   }

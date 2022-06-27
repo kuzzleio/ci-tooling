@@ -41,7 +41,7 @@ export class DangerRunner {
       try {
         console.log(`Running ${check.getName()}`);
         const result = await check.run();
-        console.log(result);
+        console.log(`Result: ${JSON.stringify(result, null, 2)}`);
         
         switch (result.type) {
           case 'message':
@@ -65,7 +65,7 @@ export class DangerRunner {
     }
 
     if (checkResults.length > 0) {
-      DangerUtils.markdown(checkResults.join('\n\n'));
+      DangerUtils.markdown('## Executed Checks\n\n' + checkResults.join('\n\n'));
       if (failed) {
         DangerUtils.fail('Found some issues !');
       }
