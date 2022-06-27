@@ -14,10 +14,12 @@ DangerUtils.schedule(async () => {
     const buffer = await fs.readFile(`${process.env.GITHUB_WORKSPACE}/${process.env.SOURCE_FOLDER}/${process.env.DANGER_CONFIG}`, 'utf8');
     const config = yaml.parse(buffer.toString()) as DangerConfig;
 
+    console.log(`Using Config File: ${JSON.stringify(config, null, 2)}`);
     const dangerRun = new DangerRunner(config);
     await dangerRun.run();
   } catch (e) {
-    DangerUtils.fail(`Failed to read ${process.env.DANGER_CONFIG}`);
+    console.error(`Failed to read ${process.env.DANGER_CONFIG}: ${e.stack}`);
+    DangerUtils.fail(`Failed to read ${process.env.DANGER_CONFIG}: ${e.stack}`);
     return;
   }
 });
