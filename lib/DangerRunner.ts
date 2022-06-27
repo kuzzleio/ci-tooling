@@ -1,6 +1,5 @@
 import { DangerCheck } from './DangerCheck';
 import { JSONObject } from './JSONObject';
-import { fail, markdown } from 'danger';
 import { codeBlock } from './utils/Markdown';
 
 export class DangerRunner {
