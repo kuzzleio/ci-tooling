@@ -18,7 +18,7 @@ jobs:
     - name: Danger
       uses: danger/danger-js@9.1.6
       with:
-        args: "--dangerfile $GITHUB_WORKSPACE/ci-tooling/danger.ts"
+        args: "--dangerfile ${{ $GITHUB_WORKSPACE }}/ci-tooling/danger.ts"
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
