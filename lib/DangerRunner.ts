@@ -1,14 +1,15 @@
 import { DangerCheck } from './DangerCheck';
 import { DangerUtils } from './DangerUtils';
 import { JSONObject } from './JSONObject';
+import { DangerConfig } from './types/DangerConfig';
 import { codeBlock } from './utils/Markdown';
 
 export class DangerRunner {
   private checks: DangerCheck[] = [];
-  private config: JSONObject;
+  private config: DangerConfig;
   private loadFailed = false;
 
-  constructor (config: JSONObject) {
+  constructor (config: DangerConfig) {
     this.config = config;
 
     for (const check of Object.keys(this.config.checks)) {
@@ -29,6 +30,13 @@ export class DangerRunner {
     }
   }
 
+  private getMessage(message: string | string[]): string {
+    if (Array.isArray(message)) {
+      return message.join('\n');
+    }
+    return message;
+  }
+
   async run () {
     if (this.loadFailed) {
       return;
@@ -45,17 +53,17 @@ export class DangerRunner {
         
         switch (result.type) {
           case 'message':
-            checkResults.push(`### ${check.getName()}\n\n${result.message}`);
+            checkResults.push(`### ${check.getName()}\n\n${this.getMessage(result.message)}`);
             break;
           case 'fail':
             failed = true;
-            checkResults.push(`### :x: ${check.getName()}\n\n${result.message}`);
+            checkResults.push(`### :x: ${check.getName()}\n\n${this.getMessage(result.message)}`);
             break;
           case 'warn':
-            checkResults.push(`### :warning: ${check.getName()}\n\n${result.message}`);
+            checkResults.push(`### :warning: ${check.getName()}\n\n${this.getMessage(result.message)}`);
             break;
           case 'success':
-            checkResults.push(`### :heavy_check_mark: ${check.getName()}\n\n${result.message}`);
+            checkResults.push(`### :heavy_check_mark: ${check.getName()}\n\n${this.getMessage(result.message)}`);
             break;
         }
       }
