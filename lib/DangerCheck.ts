@@ -2,7 +2,7 @@ import { DangerConfig } from './types/DangerConfig';
 
 export type CheckResult = {
   type: 'message' | 'fail' | 'warn' | 'success';
-  message: string | string[];
+  message?: string | string[] | undefined;
 };
 
 export abstract class DangerCheck {

@@ -29,10 +29,15 @@ export class DangerRunner {
     }
   }
 
-  private getMessage (message: string | string[]): string {
+  private getMessage (message: undefined | string | string[]): string {
+    if (message === undefined) {
+      return '';
+    }
+
     if (Array.isArray(message)) {
       return message.join('\n');
     }
+    
     return message;
   }
 

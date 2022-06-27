@@ -21,6 +21,35 @@ export default class BranchMergeCheck extends DangerCheck {
     return allowedBranch ? allowedBranch![1] === baseBranch : false;
   }
 
+  private isMergeAllowed(head: string, base: string) {
+    const allowedBranches = this.checkConfig.branches[base];
+
+    if (Array.isArray(allowedBranches)) {
+      const regexes = allowedBranches
+        .filter(e => e.startsWith('/') && e.endsWith('/'))
+        .map(e => new RegExp(e.slice(1, -1)));
+      const strings = allowedBranches.filter(e => ! e.startsWith('/') || ! e.endsWith('/'));
+
+      if (strings.includes(head)) {
+        return true;
+      }
+      
+      for (const regex of regexes) {
+        if (regex.test(head)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    if (typeof allowedBranches === 'string') {
+      return allowedBranches === head;
+    }
+
+    return true;
+  }
+
   async run(): Promise<CheckResult> {
     const base = DangerUtils.github.pr.base.ref;
     const head = DangerUtils.github.pr.head.ref;
@@ -28,19 +57,22 @@ export default class BranchMergeCheck extends DangerCheck {
     
     if ( ! this.checkConfig.branches
       || ! this.checkConfig.branches[base]
-      || this.checkBypass(base, body)
     ) {
       return {
-        type: 'message',
-        message: codeBlock('Skipped')
+        type: 'success',
+      };
+    }
+
+    if (this.checkBypass(base, body)) {
+      return {
+        type: 'warn',
+        message: codeBlock('Bypassed')
       };
     }
   
     const allowedBranches = this.checkConfig.branches[base];
   
-    if ((Array.isArray(allowedBranches) && ! allowedBranches.includes(head))
-      || (typeof allowedBranches === 'string' && allowedBranches !== head)
-    ) {
+    if (this.isMergeAllowed(head, base)) {
       return {
         type: 'fail',
         message: [
@@ -53,8 +85,7 @@ export default class BranchMergeCheck extends DangerCheck {
     }
 
     return {
-      type: 'message',
-      message: codeBlock('Skipped')
+      type: 'success',
     };
   }
 }
