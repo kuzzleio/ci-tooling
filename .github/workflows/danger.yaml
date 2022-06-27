@@ -6,7 +6,6 @@ on:
         description: 'Danger configuration file'
         required: true
         type: string
-        default: './.ci/danger.config.yml'
 
 jobs:
   danger-js:
@@ -20,4 +19,4 @@ jobs:
         args: "--dangerfile danger.ts"
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DANGER_CONFIG: ${{ inputs.CONFIG_FILE }}
+      DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
