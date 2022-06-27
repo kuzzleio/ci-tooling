@@ -9,7 +9,6 @@ schedule(async () => {
     return;
   }
 
-
   try {
     const buffer = await fs.readFile(`${process.env.GITHUB_WORKSPACE}/${process.env.DANGER_CONFIG}`, 'utf8');
     const config = yaml.parse(buffer.toString());

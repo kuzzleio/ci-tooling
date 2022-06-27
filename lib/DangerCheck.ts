@@ -18,7 +18,7 @@ export abstract class DangerCheck {
 
   abstract run (): Promise<CheckResult>;
 
-  getName(): string {
+  getName (): string {
     return this.name || this.constructor.name;
   }
 }

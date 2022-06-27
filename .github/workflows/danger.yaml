@@ -12,11 +12,24 @@ jobs:
     name: Danger JS
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Danger Checks
-      uses: danger/danger-js@11.0.7
+    - uses: actions/checkout@v3
       with:
-        args: "--dangerfile kuzzleio/ci-tooling/danger.ts"
+        path: main
+    - uses: actions/checkout@v3
+      with:
+        repository: kuzzleio/ci-tooling
+        path: ci-tooling
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - name: Build Danger Checks
+      working-directory: ci-tooling
+      run: |
+        npm run build
+    - name: Run Danger Checks
+      working-directory: main
+      run: |
+        npx danger ci --dangerfile $GITHUB_WORKSPACE/ci-tooling/danger.js
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
