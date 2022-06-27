@@ -44,6 +44,9 @@ export default class BranchMergeCheck extends DangerCheck {
     }
 
     if (typeof allowedBranches === 'string') {
+      if (allowedBranches.startsWith('/') && allowedBranches.endsWith('/')) {
+        return new RegExp(allowedBranches.slice(1, -1)).test(head);
+      }
       return allowedBranches === head;
     }
 
@@ -70,7 +73,7 @@ export default class BranchMergeCheck extends DangerCheck {
       };
     }
   
-    if (this.isMergeAllowed(head, base)) {
+    if (! this.isMergeAllowed(head, base)) {
       return {
         type: 'fail',
         message: [
