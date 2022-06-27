@@ -24,7 +24,10 @@ jobs:
         node-version: 14
     - name: Build Danger Checks
       working-directory: ci-tooling
+      env:
+        NODE_ENV: development
       run: |
+        npm i
         npm run build
     - name: Run Danger Checks
       working-directory: main
