@@ -8,7 +8,7 @@
     "lint": "eslint --max-warnings=0 ./lib --ext .ts --config .eslintc-ts.json",
     "clean": "touch danger.ts && npm run build | grep TSFILE | cut -d' ' -f 2 | xargs rm",
     "build": "tsc",
-    "danger-ci": "danger ci"
+    "danger-ci": "danger ci --dangerfile danger.ts"
   },
   "repository": {
     "type": "git",
