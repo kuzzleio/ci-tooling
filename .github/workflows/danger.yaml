@@ -12,7 +12,8 @@ jobs:
     name: Danger JS
     runs-on: ubuntu-latest
     steps:
-    - name: Danger
+    - uses: actions/checkout@v2
+    - name: Danger Checks
       uses: danger/danger-js@11.0.7
       with:
         args: "--dangerfile kuzzleio/ci-tooling/danger.ts"
