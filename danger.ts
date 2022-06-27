@@ -14,5 +14,5 @@ schedule(async () => {
   console.log(process.env.DANGER_CONFIG);
   const path = `${process.env.GITHUB_WORKSPACE}/${process.env.GITHUB_REPOSITORY}`;
   console.log(path);
-  console.log(await fs.readdir(path));
+  console.log(await fs.readdir(process.env.GITHUB_WORKSPACE));
 });
