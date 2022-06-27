@@ -13,7 +13,7 @@ export class DangerRunner {
     for (const check of Object.keys(this.config.checks)) {
       try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const dangerCheck = require(`${__dirname}/checks/${check}/test`).default;
+        const dangerCheck = require(`${__dirname}/checks/${check}/test.js`).default;
         if (! (dangerCheck instanceof DangerCheck)) {
           break;
         }
