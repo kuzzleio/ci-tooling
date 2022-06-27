@@ -27,12 +27,11 @@ jobs:
       env:
         NODE_ENV: development
       run: |
-        npm i
-        npm run build
+        npm install
     - name: Run Danger Checks
       working-directory: main
       run: |
-        npx danger ci --dangerfile $GITHUB_WORKSPACE/ci-tooling/danger.js
+        npx danger ci --dangerfile $GITHUB_WORKSPACE/ci-tooling/danger.ts
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DANGER_CONFIG: ${{ inputs.DANGER_CONFIG }}
