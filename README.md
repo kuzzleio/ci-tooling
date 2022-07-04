@@ -136,6 +136,7 @@ export default class PRWIPCheck extends DangerCheck {
 ```
 
 **Step 2 - Push your check on the master branch of kuzzleio/ci-tooling**
+
 **Step 3 - Tells danger to execute it in your danger config**
 
 Go to a repository that has a `danger.config.yaml` and uses the danger workflow
