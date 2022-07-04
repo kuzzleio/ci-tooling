@@ -26,7 +26,7 @@ on:
     #     type: string
 
 my-workflow:
-    name: Documentation - Deploy
+    name: <Workflow Name>
     runs-on: ubuntu-latest
     steps:
     # - steps to execute in the workflow
