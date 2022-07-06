@@ -1,0 +1,47 @@
+name: Kosmos Deploy
+on:
+  workflow_call:
+    inputs:
+      KOSMOS_REGISTRY_URL:
+        description: 'Kosmos registry url'
+        required: true
+        type: string
+      KOSMOS_KUBERNETES_NAMESPACE:
+        description: 'Kosmos kurbernetes namespace'
+        required: true
+        type: string
+      KOSMOS_SECRET_KEY:
+        description: 'Kosmos secret key'
+        required: true
+        type: string
+
+push_to_kosmos_registry:
+  name: Build & Push App to Kosmos Docker registry
+  runs-on: ubuntu-18.04
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        token: ${{ secrets.ACCESS_TOKEN }}
+    - name: Get current commit short SHA
+      id: vars
+      shell: bash
+      run: |
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+    - name: Login to registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ inputs.KOSMOS_REGISTRY_URL }}
+        username: nologin
+        password: ${{ inputs.KOSMOS_SECRET_KEY }}
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        build-args: |
+          VUE_APP_BACKEND=${{ steps.vars.outputs.ref }}
+          NPM_TOKEN=${{ secrets.GPR_TOKEN }}
+        file: Dockerfile
+        context: .
+        push: true
+        tags: ${{ inputs.KOSMOS_REGISTRY_URL }}/${{ inputs.KOSMOS_KUBERNETES_NAMESPACE }}/${{ steps.vars.outputs.ref }}:${{ steps.vars.outputs.sha_short }}
