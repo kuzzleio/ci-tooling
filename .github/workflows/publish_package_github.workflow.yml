@@ -2,7 +2,8 @@ name: Build and Publish To Github
 on:
   workflow_call:
   
-  publish-github-npm:
+jobs:
+  publish-github-package:
     name: Deploy package to the Github NPM registry
     runs-on: ubuntu-20.04
     permissions:

@@ -25,7 +25,8 @@ on:
     #     required: true
     #     type: string
 
-my-workflow:
+jobs:
+  my-workflow:
     name: <Workflow Name>
     runs-on: ubuntu-latest
     steps:
