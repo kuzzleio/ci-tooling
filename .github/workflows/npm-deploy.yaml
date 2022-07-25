@@ -1,6 +1,13 @@
 name: NPM Deploy
 on:
   workflow_call:
+    inputs:
+      build:
+        description: 'Danger configuration file'
+        default: false
+        required: false
+        type: boolean
+
 
 npm-deploy:
   name: Build and deploy release on NPM.js
@@ -13,6 +20,8 @@ npm-deploy:
         node-version: ${{ env.NODE_LTS_ACTIVE_VERSION }}
         registry-url: "https://registry.npmjs.org"
     - run: npm install
+    - run: npm run build
+      if: ${{ inputs.build }}
     - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
