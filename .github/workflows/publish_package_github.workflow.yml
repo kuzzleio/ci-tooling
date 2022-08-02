@@ -1,6 +1,12 @@
 name: Build and Publish To Github
 on:
   workflow_call:
+    inputs:
+      build:
+        description: 'Build the package before publishing it'
+        default: false
+        required: false
+        type: boolean
   
 jobs:
   publish-github-package:
@@ -21,7 +27,7 @@ jobs:
         run: npm config set @kuzzleio:registry https://npm.pkg.github.com
       - name: Github package registry authentication
         run: npm set //npm.pkg.github.com/:_authToken ${{ secrets.GPR_TOKEN }}
-      - run: |
-          npm ci
-          npm run build
-          npm publish
+      - run: npm install
+      - run: npm run build
+        if: ${{ inputs.build }}
+      - run: npm publish
