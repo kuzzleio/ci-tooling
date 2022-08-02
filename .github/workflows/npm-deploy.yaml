@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       build:
-        description: 'Danger configuration file'
+        description: 'Build the package before publishing it'
         default: false
         required: false
         type: boolean
