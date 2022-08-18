@@ -1,0 +1,35 @@
+name: Login to Kuzzle PaaS
+description: Login to Kuzzle PaaS to get access to private packages and container registry
+
+inputs:
+  username:
+    description: Kuzzle PaaS username
+    required: true
+  password:
+    description: Kuzzle PaaS password
+    required: true
+  npmrc_output:
+    description: Where to copy the resulting npmrc file
+    required: false
+    default: .
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to Kuzzle PaaS container registry
+      uses: docker/login-action@v2
+      with:
+        registry: harbor.paas.kuzzle.io
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+    - name: Login to Kuzzle PaaS using Kourou CLI
+      shell: bash
+      env:
+        KUZZLE_PAAS_USERNAME: ${{ inputs.username }}
+        KUZZLE_PAAS_PASSWORD: ${{ inputs.password }}
+      run: |
+        set -e
+        npx kourou paas:login --username ${{ inputs.username }}
+
+        echo "Login successful... Copying the generated .npmrc to ${{ inputs.npmrc_output }}"
+        cp ~/.npmrc ${{ inputs.npmrc_output }}
