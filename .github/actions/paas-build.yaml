@@ -1,0 +1,60 @@
+name: Build application for Kuzzle PaaS
+description:
+
+inputs:
+  username:
+    description: Kuzzle PaaS username
+    required: true
+  password:
+    description: Kuzzle PaaS password
+    required: true
+  application:
+    description: The application name to deploy
+    required: true
+  environment:
+    description: The environment to deploy to
+    required: true
+  dockerfile:
+    description: The Dockerfile to use to build the application
+    required: true
+  docker_context:
+    description: The Docker context to use to build the application
+    required: true
+  docker_build_args:
+    description: The Docker build args to use to build the application
+    required: false
+  docker_registry:
+    description: The Docker registry to use to push the application
+    required: false
+    default: harbor.paas.kuzzle.io
+  tag:
+    description: The Docker image tag to deploy (the current commit SHA will be used if not provided)
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Using a helper to compute default image tag using the current commit SHA
+      id: vars
+      shell: bash
+      run: |
+        export DEFAULT_TAG=$(git rev-parse --short HEAD)
+        export PROVIDED_TAG=${{ inputs.tag }}
+        echo "::set-output name=tag::${PROVIDED_TAG:-$DEFAULT_TAG}"
+        echo "::set-output name=project::$(jq -r .kuzzle.paas.project package.json)"
+    - name: Build Docker image and push it to the Kuzzle PaaS registry (without Docker Build arguments)
+      if: ${{ ! inputs.docker_build_args }}
+      uses: docker/build-push-action@v2
+      with:
+        file: ${{ inputs.dockerfile }}
+        context: ${{ inputs.docker_context }}
+        push: true
+        tags: harbor.paas.kuzzle.io/${{ steps.vars.outputs.project }}/${{ inputs.environment }}/${{ inputs.application }}:${{ steps.vars.outputs.tag }}
+    - name: Build Docker image and push it to the Kuzzle PaaS registry (with Docker Build arguments)
+      uses: docker/build-push-action@v2
+      with:
+        build-args: ${{ inputs.docker_build_args }}
+        file: ${{ inputs.dockerfile }}
+        context: ${{ inputs.docker_context }}
+        push: true
+        tags: ${{ inputs.docker_registry }}/${{ steps.vars.outputs.project }}/${{ inputs.environment }}/${{ inputs.application }}:${{ steps.vars.outputs.tag }}

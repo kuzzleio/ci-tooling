@@ -8,6 +8,10 @@ inputs:
   password:
     description: Kuzzle PaaS password
     required: true
+  docker_registry:
+    description: The Docker registry to use to push the application
+    required: false
+    default: harbor.paas.kuzzle.io
   npmrc_output:
     description: Where to copy the resulting npmrc file
     required: false
@@ -19,7 +23,7 @@ runs:
     - name: Login to Kuzzle PaaS container registry
       uses: docker/login-action@v2
       with:
-        registry: harbor.paas.kuzzle.io
+        registry: ${{ inputs.docker_registry }}
         username: ${{ inputs.username }}
         password: ${{ inputs.password }}
     - name: Login to Kuzzle PaaS using Kourou CLI

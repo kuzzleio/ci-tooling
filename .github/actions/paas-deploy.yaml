@@ -14,6 +14,10 @@ inputs:
   environment:
     description: The environment to deploy to
     required: true
+  docker_registry:
+    description: The Docker registry to use to push the application
+    required: false
+    default: harbor.paas.kuzzle.io
   tag:
     description: The Docker image tag to deploy (the current commit SHA will be used if not provided)
     required: false
@@ -43,4 +47,4 @@ runs:
       run: |
         set -e
         echo "Updating ${{ inputs.application }} application of ${{ inputs.environment }} environment using image ${{ inputs.image }}:${{ steps.vars.outputs.tag }} ..."
-        npx kourou paas:deploy --project ${{ steps.vars.outputs.project }} ${{ inputs.environment }} ${{ inputs.application }} harbor.paas.kuzzle.io/${{ steps.vars.outputs.project }}/${{ inputs.environment }}/${{ inputs.application }}:${{ steps.vars.outputs.tag }}
+        npx kourou paas:deploy --project ${{ steps.vars.outputs.project }} ${{ inputs.environment }} ${{ inputs.application }} ${{ inputs.docker_registry }}/${{ steps.vars.outputs.project }}/${{ inputs.environment }}/${{ inputs.application }}:${{ steps.vars.outputs.tag }}
