@@ -4,7 +4,7 @@ import { BrokenLinkConfig, DangerConfig } from '../../lib/types/DangerConfig';
 import { backquote, codeBlock } from '../../lib/utils/Markdown';
 import * as fs from 'fs/promises';
 import * as Path from 'path';
-import * as glob from 'fast-glob';
+import glob from 'fast-glob';
 
 
 export default class BrokenLinkCheck extends DangerCheck {
