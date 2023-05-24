@@ -1,12 +1,13 @@
 import { GitHubDSL } from 'danger/distribution/dsl/GitHubDSL';
 import { GitDSL } from 'danger/distribution/dsl/GitDSL';
+import * as Path from 'path';
 
 type CallbackableFn = (callback: (done: any) => void) => void
 
 type Scheduleable = Promise<any> | Promise<void> | CallbackableFn
 
 /**
- * Since DangerJS is doing so ugly hacks to make it work on the CLI
+ * Since DangerJS is doing so many ugly hacks to make it work on the CLI
  * where it injects itself in the global scope, and we cannot import danger
  * otherwise it will fail to load the danger script.
  * 
@@ -48,6 +49,10 @@ export class DangerUtils {
   static schedule (schedulable: Scheduleable): void {
     // @ts-ignore
     schedule(schedulable);
+  }
+
+  static getRepositoryPath(path: string): string {
+    return Path.join(process.env.GITHUB_WORKSPACE ?? '', process.env.SOURCE_FOLDER ?? '', path);
   }
 
 }

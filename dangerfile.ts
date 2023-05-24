@@ -12,7 +12,7 @@ DangerUtils.schedule(async () => {
   }
 
   try {
-    const buffer = await fs.readFile(`${process.env.GITHUB_WORKSPACE}/${process.env.SOURCE_FOLDER}/${process.env.DANGER_CONFIG}`, 'utf8');
+    const buffer = await fs.readFile(DangerUtils.getRepositoryPath(process.env.DANGER_CONFIG), 'utf8');
     const config = yaml.parse(buffer.toString()) as DangerConfig;
 
     console.log(`Using Config File: ${JSON.stringify(config, null, 2)}`);
