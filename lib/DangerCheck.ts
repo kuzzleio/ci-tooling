@@ -16,6 +16,10 @@ export abstract class DangerCheck {
     this.config = config;
   }
 
+  async init (): Promise<void> {
+    // do nothing
+  }
+
   abstract run (): Promise<CheckResult>;
 
   getName (): string {

@@ -52,6 +52,7 @@ export class DangerRunner {
     for (const check of this.checks) {
       try {
         console.log(`Running ${check.getName()}`);
+        await check.init();
         const result = await check.run();
         console.log(`Result: ${JSON.stringify(result, null, 2)}`);
         

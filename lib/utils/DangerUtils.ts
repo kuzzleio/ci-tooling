@@ -51,8 +51,14 @@ export class DangerUtils {
     schedule(schedulable);
   }
 
-  static getRepositoryPath(path: string): string {
+  static getRepositoryPath (path: string): string {
     return Path.join(process.env.GITHUB_WORKSPACE ?? '', process.env.SOURCE_FOLDER ?? '', path);
+  }
+
+  static reverseRepositoryPath (path: string): string {
+    const folder = Path.join(process.env.GITHUB_WORKSPACE ?? '', process.env.SOURCE_FOLDER ?? '');
+
+    return path.substring(folder.length + Path.sep.length);
   }
 
 }
