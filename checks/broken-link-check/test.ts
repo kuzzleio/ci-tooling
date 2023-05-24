@@ -60,7 +60,9 @@ export default class BrokenLinkCheck extends DangerCheck {
   
         let found = false;
         for (const repo of this.repositoriesConfig) {
-          if (link.startsWith(repo.deploy_path)) {
+          if (link.startsWith(repo.deploy_path)
+            || (repo.deploy_path.endsWith('/') && link.startsWith(repo.deploy_path.slice(0, -1))) // Handle trailing slash
+          ) {
             found = true;
             break;
           }
