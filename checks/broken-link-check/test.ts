@@ -29,6 +29,7 @@ type LinkError = {
   path: string,
   link: string,
   errorType: LinkErrorType,
+  line: number,
   message?: string,
 };
 
@@ -44,41 +45,47 @@ export default class BrokenLinkCheck extends DangerCheck {
   async checkLinksAtPath(path: string): Promise<LinkError[]> {
     const content = await fs.readFile(path, 'utf-8');
     const errors: LinkError[] = [];
+    const lines = content.split('\n');
 
-    for (const match of content.matchAll(MD_LINK_PATTERN)) {
-      const link = match[1];
-
-      // We only want to check links like "/core/2/..." not the external links
-      if (!link.startsWith('/')) {
-        continue;
-      }
-      
-
-      let found = false;
-      for (const repo of this.repositoriesConfig) {
-        if (link.startsWith(repo.deploy_path)) {
-          found = true;
-          break;
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      for (const match of line.matchAll(MD_LINK_PATTERN)) {
+        const link = match[1];
+  
+        // We only want to check links like "/core/2/..." not the external links
+        if (!link.startsWith('/')) {
+          continue;
         }
-      }
-
-      if (!found) {
-        errors.push({
-          path,
-          link,
-          errorType: LinkErrorType.DeployPathNotFound,
-        });
-      }
-
-      const anchorMatch = LINK_ACHOR_PATTERN.exec(link);
-
-      if (anchorMatch) {
-        errors.push({
-          path,
-          link,
-          errorType: LinkErrorType.MalformedAnchor,
-          message: `"should be "${anchorMatch[1]}#${anchorMatch[2]}"`
-        });
+        
+  
+        let found = false;
+        for (const repo of this.repositoriesConfig) {
+          if (link.startsWith(repo.deploy_path)) {
+            found = true;
+            break;
+          }
+        }
+  
+        if (!found) {
+          errors.push({
+            path,
+            link,
+            line: i + 1,
+            errorType: LinkErrorType.DeployPathNotFound,
+          });
+        }
+  
+        const anchorMatch = LINK_ACHOR_PATTERN.exec(link);
+  
+        if (anchorMatch) {
+          errors.push({
+            path,
+            link,
+            line: i + 1,
+            errorType: LinkErrorType.MalformedAnchor,
+            message: `"should be "${anchorMatch[1]}#${anchorMatch[2]}"`
+          });
+        }
       }
     }
 
@@ -158,7 +165,7 @@ export default class BrokenLinkCheck extends DangerCheck {
     if (deployPathError.length > 0) {
       message.push(...[
         '#### Wrong Deploy Path',
-        'The following links are absolute links but does not point to any of our list [repositories deploy path](https://raw.githubusercontent.com/kuzzleio/documentation/master/.repos/repositories.json)',
+        'The following links are absolute links but does not point to any of our listed [repositories deploy path](https://raw.githubusercontent.com/kuzzleio/documentation/master/.repos/repositories.json)',
         ''
       ]);
 
@@ -168,13 +175,13 @@ export default class BrokenLinkCheck extends DangerCheck {
       for (const error of deployPathError) {
         const path = DangerUtils.reverseRepositoryPath(error.path);
         if (lastPath !== path) {
-          if (lastPath === '') {
+          if (lastPath !== '') {
             linksCodeBlock.push('');
           }
           linksCodeBlock.push(`[File] ${path}`);
           lastPath = path;
         }
-        linksCodeBlock.push(`- ${error.link}`);
+        linksCodeBlock.push(`- {line: ${error.line}} ${error.link}`);
       }
 
       message.push(codeBlock(linksCodeBlock.join('\n')));
@@ -203,7 +210,7 @@ export default class BrokenLinkCheck extends DangerCheck {
           linksCodeBlock.push(`[File] ${path}`);
           lastPath = path;
         }
-        linksCodeBlock.push(`- ${error.link} ${error.message ? `(${error.message})` : ''}`);
+        linksCodeBlock.push(`- {line: ${error.line}} ${error.link} ${error.message ? `(${error.message})` : ''}`);
       }
 
       message.push(codeBlock(linksCodeBlock.join('\n')));
